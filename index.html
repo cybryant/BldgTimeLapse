@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Tally Buildings</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.23/esri/themes/dark/main.css"
+    />
+    <script src="https://js.arcgis.com/4.23/"></script>
+  </head>
+
+  <body>
+    <div id="applicationDiv">
+      <!-- filter widget -->
+      <div id="landUse-filter" class="esri-widget">
+        <div class="landUse-item visible-landUse" data-landUse="Multi-Family">
+          Multi-Family
+        </div>
+        <div
+          class="landUse-item visible-landUse"
+          data-landUse="Single Family Attached"
+        >
+          Single Family Attached
+        </div>
+        <div
+          class="landUse-item visible-landUse"
+          data-landUse="Single Family Detached/Mobile Home"
+        >
+          Single Family Detached
+        </div>
+        <div class="landUse-item visible-landUse" data-landUse="Office">
+          Office
+        </div>
+        <div class="landUse-item visible-landUse" data-landUse="Retail">
+          Retail
+        </div>
+      </div>
+
+      <!-- main window -->
+      <div id="viewDiv">
+        <div id="titleDiv" class="esri-widget">Tallahassee Construction</div>
+      </div>
+      <div id="sliderContainer" class="esri-widget">
+        <span id="sliderValue"></span>
+        <div id="sliderInnerContainer">
+          <div id="slider"></div>
+        </div>
+        <div
+          id="playButton"
+          class="esri-widget esri-widget--button toggle-button"
+        >
+          <div>
+            <span
+              class="toggle-button-icon esri-icon-play"
+              aria-label="play icon"
+            ></span>
+            Play
+          </div>
+          <div>
+            <span
+              class="toggle-button-icon esri-icon-pause"
+              aria-label="pause icon"
+            ></span>
+            Pause
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <script src="main.js"></script> -->
+    <script src="bldgTypes.js"></script>
+  </body>
+</html>
+
+<!-- <script>
+  for (feature in annexLayer) {
+    var cityLimitFeats = [];
+    console("test2");
+    if ($feature.ANNEXYEAR <= year) {
+      cityLimitFeats.append($feature);
+      return geometryEngine.union(cityLimitFeats);
+    }
+  }
+</script> -->
