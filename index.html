@@ -12,6 +12,7 @@
       rel="stylesheet"
       href="https://js.arcgis.com/4.23/esri/themes/dark/main.css"
     />
+    <script src="https://d3js.org/d3.v4.js"></script>
     <script src="https://js.arcgis.com/4.23/"></script>
   </head>
 
@@ -45,7 +46,25 @@
       <!-- main window -->
       <div id="viewDiv">
         <div id="titleDiv" class="esri-widget">Tallahassee Construction</div>
+
+        <!-- collapsible sidepanel -->
+        <!-- This was based on the W3 template, but for any elements that you want to appear inside the application window, add a 
+        //view.ui.add("[id]", "[location]");// in the js file; this includes the open button so it has to be
+        given an id; class "esri-widget" also would work for the panel & buttons and just seems to add it's own styling -->
+        <div id="sidePanel" class="sidepanel">
+          <!-- <div id="sidePanel" class="esri-widget"> -->
+          <a class="closebtn" onclick="closeNav()">Close</a>
+          <div id="popContainer"></div>
+          <p>Click Here</p>
+        </div>
+
+        <!-- <button id="openButton" class="openbtn" onclick="openNav()"> -->
+        <button id="openButton" class="esri-widget" onclick="openNav()">
+          See Population Chart
+        </button>
       </div>
+
+      <!-- slider -->
       <div id="sliderContainer" class="esri-widget">
         <span id="sliderValue"></span>
         <div id="sliderInnerContainer">

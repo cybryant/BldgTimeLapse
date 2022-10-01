@@ -1,0 +1,108 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+METHOD:PUBLISH
+PRODID:-//LogMeIn//GoToWebinar//EN
+X-MS-OLK-FORCEINSPECTOROPEN:TRUE
+BEGIN:VTIMEZONE
+TZID:America/New_York
+LAST-MODIFIED:20220816T024022Z
+TZURL:http://tzurl.org/zoneinfo-outlook/America/New_York
+X-LIC-LOCATION:America/New_York
+BEGIN:DAYLIGHT
+TZNAME:EDT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZNAME:EST
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+DTSTAMP:20220826T134613Z
+DTSTART;TZID=America/New_York:20220921T120000
+DTEND;TZID=America/New_York:20220921T133000
+SUMMARY:GoToWebinar - The Economics of Development in Florida with Joe Mi
+ nicozzi\, Part 3
+LOCATION:GoToWebinar - See conference call information below
+UID:1153681101@logmein.com
+ORGANIZER:vyoung@1000fof.org
+DESCRIPTION:1. Click and join at the specified time and date:\nhttps://gl
+ obal.gotowebinar.com/join/6470106285771580172/110889630\nNote: This link
+  should not be shared with others\; it is unique to you.\n\n2. Choose on
+ e of the following audio options:\n\nTO USE YOUR COMPUTER'S AUDIO:\nWhen
+  the Webinar begins\, you will be connected to audio using your computer
+ 's microphone and speakers (VoIP). A headset is recommended.\n\n-- OR --
+ \n\nTO USE YOUR TELEPHONE:\nIf you prefer to use your phone\, you must s
+ elect "Use Telephone" after joining the webinar and call in using the nu
+ mbers below.\n\nUnited States: +1 (213) 929-4212\n	Access Code: 740-936-
+ 442\n	Audio PIN: Shown after joining the webinar\n\nBack by popular dema
+ nd\, Urban3 founder and principal Joe Minicozzi will provide Florida-spe
+ cific information on the types of analysis to undertake to determine the
+  true economic impacts of new development and redevelopment in communiti
+ es.  Drawing on new data from Collier County\, West Palm Beach and other
+  communities in Florida and beyond\, he will explore the types of short 
+ and long-term public costs associated with development and anticipated r
+ evenue through property taxes and other measures.  A pioneer of an appro
+ ach to planning and city design called Geoaccounting\, Mr. Minicozzi dem
+ onstrate how cities can use local data and simple math to understand the
+  impact of development on their community economic health.  His case stu
+ dies illuminate how cities and regions can better forecast fiscally sust
+ ainable development patterns\, in the process protecting sensitive natur
+ al lands and waters.  \n\nThis webinar has been approved for 1.5 AICP CM
+  professional certification credits for planners (#9254734)\, 2 C:E cred
+ its for Florida attorneys (#2207516N)\, and 1 contact hour for Florida E
+ nvironmental Health Professionals (0.1 CEUs). 1000 Friends of Florida ha
+ s applied for credits for Florida DBPR landscape architects and Florida 
+ Certified Floodplain Managers but cannot guarantee that credits will be 
+ approved.  1000 Friends only offers credit to those who attend the live 
+ webinar.\n
+X-ALT-DESC;FMTTYPE=text/html:<HTML><HEAD><TITLE></TITLE><BODY><FONT SIZE=
+ 2><b>1. Click and join at the specified time and date:</b></FONT><BR><FO
+ NT SIZE=2>https://global.gotowebinar.com/join/6470106285771580172/110889
+ 630</FONT><BR><FONT SIZE=2>Note: This link should not be shared with oth
+ ers\; it is unique to you.</FONT><BR><BR><FONT SIZE=2><FONT SIZE=2><b>2.
+  Choose one of the following audio options:</b></FONT><BR><BR><FONT SIZE
+ =2>TO USE YOUR COMPUTER'S AUDIO:</FONT><BR><FONT SIZE=2>When the Webinar
+  begins\, you will be connected to audio using your computer's microphon
+ e and speakers (VoIP). A headset is recommended.</FONT><BR><BR><FONT SIZ
+ E=2>-- OR --</FONT><BR><BR><FONT SIZE=2>TO USE YOUR TELEPHONE:</FONT><BR
+ ><FONT SIZE=2>If you prefer to use your phone\, you must select "Use Tel
+ ephone" after joining the webinar and call in using the numbers below.</
+ FONT><BR><BR><FONT SIZE=2>United States: +1 (213) 929-4212</FONT><BR><FO
+ NT SIZE=2>&nbsp\;&nbsp\;&nbsp\;&nbsp\;</FONT><FONT SIZE=2>Access Code: 7
+ 40-936-442</FONT><BR><FONT SIZE=2>&nbsp\;&nbsp\;&nbsp\;&nbsp\;</FONT><FO
+ NT SIZE=2>Audio PIN: Shown after joining the webinar</FONT><BR></BODY></
+ HTML></FONT><BR><FONT SIZE=2>Back by popular demand\, Urban3 founder and
+  principal Joe Minicozzi will provide Florida-specific information on th
+ e types of analysis to undertake to determine the true economic impacts 
+ of new development and redevelopment in communities.  Drawing on new dat
+ a from Collier County\, West Palm Beach and other communities in Florida
+  and beyond\, he will explore the types of short and long-term public co
+ sts associated with development and anticipated revenue through property
+  taxes and other measures.  A pioneer of an approach to planning and cit
+ y design called Geoaccounting\, Mr. Minicozzi demonstrate how cities can
+  use local data and simple math to understand the impact of development 
+ on their community economic health.  His case studies illuminate how cit
+ ies and regions can better forecast fiscally sustainable development pat
+ terns\, in the process protecting sensitive natural lands and waters.  \
+ n\nThis webinar has been approved for 1.5 AICP CM professional certifica
+ tion credits for planners (#9254734)\, 2 C:E credits for Florida attorne
+ ys (#2207516N)\, and 1 contact hour for Florida Environmental Health Pro
+ fessionals (0.1 CEUs). 1000 Friends of Florida has applied for credits f
+ or Florida DBPR landscape architects and Florida Certified Floodplain Ma
+ nagers but cannot guarantee that credits will be approved.  1000 Friends
+  only offers credit to those who attend the live webinar.</FONT><BR></BO
+ DY></HTML>
+BEGIN:VALARM
+TRIGGER:-PT15M
+ACTION:DISPLAY
+DESCRIPTION:Reminder
+END:VALARM
+END:VEVENT
+END:VCALENDAR
