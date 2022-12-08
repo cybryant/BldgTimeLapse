@@ -12,8 +12,9 @@
       rel="stylesheet"
       href="https://js.arcgis.com/4.23/esri/themes/dark/main.css"
     />
-    <script src="https://d3js.org/d3.v4.js"></script>
-    <script src="https://js.arcgis.com/4.23/"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://js.arcgis.com/4.25/"></script>
   </head>
 
   <body>
@@ -54,13 +55,13 @@
         <div id="sidePanel" class="sidepanel">
           <!-- <div id="sidePanel" class="esri-widget"> -->
           <a class="closebtn" onclick="closeNav()">Close</a>
-          <div id="popContainer"></div>
+          <canvas id="popChart"></canvas>
           <p>Click Here</p>
         </div>
 
         <!-- <button id="openButton" class="openbtn" onclick="openNav()"> -->
         <button id="openButton" class="esri-widget" onclick="openNav()">
-          See Population Chart
+          Population Chart
         </button>
       </div>
 

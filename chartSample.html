@@ -1,0 +1,76 @@
+<!-- Chart Button Change example -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div>
+      <button onclick="buttonExecute(0)">Tallahassee</button>
+      <button onclick="buttonExecute(1)">SisterCity</button>
+      <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+      // fetch block
+      function buttonExecute(cityIndex) {
+        async function popData() {
+          const url = "popData.json";
+          const response = await fetch(url);
+          const datapoints = await response.json();
+          return datapoints;
+        }
+
+        popData().then((datapoints) => {
+          const year = datapoints.metroPopHistory[cityIndex].yearlyPop.map(
+            function (index) {
+              return index.year;
+            }
+          );
+
+          const population = datapoints.metroPopHistory[
+            cityIndex
+          ].yearlyPop.map(function (index) {
+            return index.pop;
+          });
+
+          const cityName = datapoints.metroPopHistory[cityIndex].city;
+
+          myChart.config.data.labels = year;
+          myChart.config.data.datasets[0].data = population;
+          myChart.config.data.datasets[0].label = cityName;
+          myChart.update();
+        });
+      }
+
+      // setup
+      const labels = ["January", "February", "March", "April", "May", "June"];
+
+      const data = {
+        labels: labels,
+        datasets: [
+          {
+            label: "My First dataset",
+            backgroundColor: "rgb(255, 99, 132)",
+            borderColor: "rgb(255, 99, 132)",
+            data: [0, 10, 5, 2, 20, 30, 45]
+          }
+        ]
+      };
+
+      const config = {
+        type: "bar",
+        data: data,
+        options: {}
+      };
+
+      const myChart = new Chart(document.getElementById("myChart"), config);
+    </script>
+  </body>
+</html>
