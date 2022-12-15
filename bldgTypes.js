@@ -97,93 +97,49 @@ require([
   /*********************************************/
   /*             Population Chart              */
   /*********************************************/
+  // be sure to reference popDatapoint.js as an src in the hmtl
 
-  // variable for dom context where chart is placed
-  let ctx = document.getElementById("popChart").getContext("2d");
-
-  async function getPopData() {
-    const url = "popData.json";
-    const response = await fetch(url);
-    const popDatapoints = await response.json();
-    return popDatapoints;
-  }
-
-  getPopData().then((popDatapoints) => {
-    const population = popDatapoints.popHistory.map(function (index) {
-      return index.population;
-    });
-
-    const popYear = popDatapoints.popHistory.map(function (index) {
-      return index.year;
-    });
-
-    // set chart data parameters
-    const data = {
-      labels: popYear,
-      datasets: [
-        {
-          label: false,
-          backgroundColor: "rgb(255, 99, 132)",
-          borderColor: "rgb(255, 99, 132)",
-          // fill: true,
-          data: population
-        }
-      ]
-    };
-
-    // animation for progressive line chart adapted from documentation example
-    const totalDuration = 10000;
-    const delayBetweenPoints = totalDuration / population.length;
-    /* 'previousY' is an if/then function; if the ctx index is 0, start the chart at the Y-value we provide; otherwise get the value of the population data located at the index minus 1 and make that the y value*/
-    const previousY = (ctx) =>
-      ctx.index === 0
-        ? ctx.chart.scales.y.getPixelForValue(6916)
-        : ctx.chart
-            .getDatasetMeta(ctx.datasetIndex)
-            .data[ctx.index - 1].getProps(["y"], true).y;
-
-    // set chart configuration parameters
-    const config = {
-      type: "line",
-      data: data,
-      options: {
-        responsive: true,
-        hoverRadius: 5,
-        animation: {
-          x: {
-            type: "number",
-            easing: "linear",
-            // duration: delayBetweenPoints,
-            duration: 0,
-            from: NaN, // the point is initially skipped
-            delay(ctx) {
-              if (ctx.type !== "data" || ctx.xStarted) {
-                return 0;
-              }
-              ctx.xStarted = true;
-              return ctx.index * delayBetweenPoints;
-            }
-          },
-          y: {
-            type: "number",
-            easing: "linear",
-            // duration: delayBetweenPoints,
-            duration: 0,
-            from: previousY,
-            delay(ctx) {
-              if (ctx.type !== "data" || ctx.yStarted) {
-                return 0;
-              }
-              ctx.yStarted = true;
-              return ctx.index * delayBetweenPoints;
-            }
-          }
-        }
-      }
-    };
-
-    const populationChart = new Chart(ctx, config);
+  // create an array of year values from the external popDatapoint.js file
+  const popYear = popDatapoints.popHistory.map(function (index) {
+    return index.year;
   });
+
+  // create an array of population values from external popDatapoint.js file
+  const population = popDatapoints.popHistory.map(function (index) {
+    return index.population;
+  });
+
+  let changingPop = population[0];
+  // let changingPop = population.slice(0, 20);
+
+  // set chart data parameters
+  const data = {
+    labels: popYear,
+    datasets: [
+      {
+        label: false,
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgb(255, 99, 132)",
+        // fill: true,
+        // data: population
+        data: changingPop
+      }
+    ]
+  }; // end data
+
+  // set chart configuration parameters
+  const config = {
+    type: "line",
+    data: data,
+    options: {
+      responsive: true
+    }
+  };
+
+  const populationChart = new Chart(
+    document.getElementById("popChart"),
+    config
+  );
 
   /*********************************************/
   /*             Land Use Filter               */
@@ -313,7 +269,26 @@ require([
     slider.viewModel.setValue(0, value);
     cityLimLayer.renderer = cityLimRenderer(value);
     layer.renderer = createRenderer(value);
-    // TODO: set population chart value here
+    updateChart(value);
+  }
+
+  /*********************************************/
+  /*       Update the Population Chart         */
+  /*********************************************/
+  function updateChart(year) {
+    let yearIndex;
+    let yr;
+    // reminder: 'yr' is functioning as the index of popYear
+    for (yr in popYear) {
+      if (popYear[yr] == year) {
+        changingPop = population.slice(0, yr + 1);
+      }
+      return changingPop;
+    }
+    // console.log(changingPop);
+    // populationChart.config.data.datasets[0].data = changingPop;
+    populationChart.config.data.datasets[0].data = population;
+    populationChart.update();
   }
 
   /*********************************************/
