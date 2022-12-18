@@ -23,6 +23,9 @@ require([
   GeoJSONLayer,
   geometryEngine
 ) => {
+  //TEMPORARY - just for testing
+  let setYearCount = 1;
+
   // API Querying Documentation: "Features within a FeatureLayer are rendered as graphics inside a
   // LayerView. Therefore the features visible in a view are accessed via the LayerView, not the
   // FeatureLayer. To access features visible in the view, use the query methods in the FeatureLayerView."
@@ -100,7 +103,7 @@ require([
   // be sure to reference popDatapoint.js as an src in the hmtl
 
   // create an array of year values from the external popDatapoint.js file
-  const popYear = popDatapoints.popHistory.map(function (index) {
+  const popYears = popDatapoints.popHistory.map(function (index) {
     return index.year;
   });
 
@@ -114,11 +117,11 @@ require([
 
   // set chart data parameters
   const data = {
-    labels: popYear,
+    labels: popYears,
     datasets: [
       {
         label: false,
-        backgroundColor: "rgb(255, 99, 132)",
+        // backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgb(255, 99, 132)",
         // fill: true,
         // data: population
@@ -137,9 +140,14 @@ require([
   };
 
   const populationChart = new Chart(
-    document.getElementById("popChart"),
+    document.getElementById("popChartPanel"),
     config
   );
+
+  // set the initial index for popYears (ie, the first year in the array);
+  // this will be used in updateChart()
+  let yrIndex = -7; // this is what it will be if I add population back to 1824
+  // this is an adjustment to let it run from 1824
 
   /*********************************************/
   /*             Land Use Filter               */
@@ -198,6 +206,8 @@ require([
   function inputHandler(event) {
     stopAnimation();
     setYear(event.value);
+    updateChart(event.value);
+    console.log(event.value);
   }
   slider.on("thumb-drag", inputHandler);
 
@@ -211,6 +221,9 @@ require([
     }
   });
 
+  // view.when(() => {
+  //   timeSlider = new TimeSlider({
+
   /*********************************************/
   /*      Set up Hovering Interactivity        */
   /*********************************************/
@@ -222,8 +235,8 @@ require([
   /*********************************************/
   view.ui.empty("top-left");
   view.ui.add(titleDiv, "top-left");
-  view.ui.add(sidePanel, "top-right");
-  view.ui.add(openButton, "top-right");
+  view.ui.add(popChartPanel, "bottom-right");
+  // view.ui.add(openButton, "top-right");
   view.ui.add(
     new Home({
       view: view
@@ -249,9 +262,10 @@ require([
   /*********************************************/
   // Starts the application by visualizing year 1824
   setYear(1824);
+  // setYear(1830);
 
   // TEMPORARY : open sidebar on load while developing
-  openNav();
+  // openNav();
 
   // animation won't start until user presses 'Play'
   let animation = null;
@@ -264,31 +278,38 @@ require([
   /*                 Set Year                  */
   /*********************************************/
   //Sets the current visualized construction year based on slider value
+
   function setYear(value) {
     sliderValue.innerHTML = Math.floor(value);
     slider.viewModel.setValue(0, value);
     cityLimLayer.renderer = cityLimRenderer(value);
     layer.renderer = createRenderer(value);
-    updateChart(value);
   }
 
   /*********************************************/
   /*       Update the Population Chart         */
   /*********************************************/
   function updateChart(year) {
-    let yearIndex;
-    let yr;
-    // reminder: 'yr' is functioning as the index of popYear
-    for (yr in popYear) {
-      if (popYear[yr] == year) {
-        changingPop = population.slice(0, yr + 1);
+    year = Math.floor(year);
+    console.log("THIS IS YEAR OUTSIDE 'FOR' LOOP: " + year);
+    for (let x in popYears) {
+      if (popYears[x] == year) {
+        let popYrIndex = popYears.indexOf(popYears[x]);
+        // console.log("popYrIndex inside 'if' statement: " + popYrIndex);
+        // console.log("year inside 'if' statment: " + year);
+        changingPop = population.slice(0, popYrIndex + 1);
+        // console.log("changingPop inside 'if' statement: " + changingPop);
+        // return changingPop;
+        populationChart.config.data.datasets[0].data = changingPop;
+        populationChart.update();
       }
-      return changingPop;
+      // console.log("outside if statement changingPop is: " + changingPop);
+      // populationChart.update();
+      // return changingPop;
     }
-    // console.log(changingPop);
     // populationChart.config.data.datasets[0].data = changingPop;
-    populationChart.config.data.datasets[0].data = population;
-    populationChart.update();
+    // console.log("outside 'for' loop changingPop is: " + changingPop);
+    // populationChart.update();
   }
 
   /*********************************************/
@@ -413,12 +434,14 @@ require([
         return;
       }
 
-      value += 0.5;
+      // value += 0.5;
+      value += 1;
       if (value > 2021) {
         value = 1824;
       }
 
       setYear(value);
+      updateChart(value);
 
       // Update at 10fps
       setTimeout(() => {
@@ -563,13 +586,13 @@ require([
 /*********************************************/
 /*       Population Chart Side Bar           */
 /*********************************************/
-//open the sidebar
-function openNav() {
-  document.getElementById("sidePanel").style.width = "550px";
-}
+// //open the sidebar
+// function openNav() {
+//   document.getElementById("sidePanel").style.width = "550px";
+// }
 
-// close the sidebar
-function closeNav() {
-  document.getElementById("sidePanel").style.width = "0";
-  // document.getElementById("main").style.marginLeft = "0";
-}
+// // close the sidebar
+// function closeNav() {
+//   document.getElementById("sidePanel").style.width = "0";
+//   // document.getElementById("main").style.marginLeft = "0";
+// }

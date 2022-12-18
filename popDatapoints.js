@@ -1,6 +1,30 @@
 const popDatapoints = {
   popHistory: [
     {
+      year: 1824,
+      population: 0
+    },
+    {
+      year: 1825,
+      population: 0
+    },
+    {
+      year: 1826,
+      population: 0
+    },
+    {
+      year: 1827,
+      population: 0
+    },
+    {
+      year: 1828,
+      population: 0
+    },
+    {
+      year: 1829,
+      population: 0
+    },
+    {
       year: 1830,
       population: 6494
     },

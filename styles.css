@@ -150,8 +150,8 @@ body {
 /* Collapsible Sidebar */
 /* The sidepanel menu */
 .sidepanel {
-  height: 400px; /* Specify a height */
-  width: 0; /* 0 width - change this with JavaScript */
+  height: 350px; Specify a height
+  width: 0;  width - change this with JavaScript
   position: fixed; /*Stay in place*/
   z-index: 1; /* Stay on top */
   top: 0;

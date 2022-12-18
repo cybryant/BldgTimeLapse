@@ -13,7 +13,12 @@
       href="https://js.arcgis.com/4.23/esri/themes/dark/main.css"
     />
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- sets empty favicon to avoid 404 error in some browsers -->
+    <link rel="icon" href="data:," />
+
+    <!-- external API locations -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script src="https://js.arcgis.com/4.25/"></script>
   </head>
 
@@ -52,16 +57,31 @@
         <!-- This was based on the W3 template, but for any elements that you want to appear inside the application window, add a 
         //view.ui.add("[id]", "[location]");// in the js file; this includes the open button so it has to be
         given an id; class "esri-widget" also would work for the panel & buttons and just seems to add it's own styling -->
-        <div id="sidePanel" class="sidepanel">
-          <!-- <div id="sidePanel" class="esri-widget"> -->
-          <a class="closebtn" onclick="closeNav()">Close</a>
-          <canvas id="popChart"></canvas>
-        </div>
+        <!-- <div id="sidePanel" class="sidepanel"> -->
+        <!-- <div id="sidePanel" class="esri-widget"> -->
+        <!-- <a class="closebtn" onclick="closeNav()">Close</a> -->
+        <!-- <canvas id="popChart"></canvas> -->
+        <!-- </div> -->
 
         <!-- <button id="openButton" class="openbtn" onclick="openNav()"> -->
-        <button id="openButton" class="esri-widget" onclick="openNav()">
-          Population Chart
-        </button>
+        <!-- <button id="openButton" class="esri-widget" onclick="openNav()"> -->
+        <!-- Population Chart -->
+        <!-- </button> -->
+
+        <!-- CHART.JS POPULATION CHART -->
+        <div id="popDiv" class="esri-widget">
+          <!-- <div class="esri-widget__heading">
+            <h4>Annual Population</h4>
+          </div> -->
+          <!-- <div id="monthDiv"></div> -->
+          <br />
+          <canvas
+            id="popChartPanel"
+            height="600"
+            width="2500"
+            class="esri-widget"
+          ></canvas>
+        </div>
       </div>
 
       <!-- slider -->
