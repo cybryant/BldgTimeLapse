@@ -6,23 +6,23 @@ const popDatapoints = {
     },
     {
       year: 1825,
-      population: 0
+      population: 996
     },
     {
       year: 1826,
-      population: 0
+      population: 2087
     },
     {
       year: 1827,
-      population: 0
+      population: 3179
     },
     {
       year: 1828,
-      population: 0
+      population: 4271
     },
     {
       year: 1829,
-      population: 0
+      population: 5364
     },
     {
       year: 1830,
@@ -709,8 +709,80 @@ const popDatapoints = {
       population: 239452
     },
     {
+      year: 2001,
+      population: 243056
+    },
+    {
+      year: 2002,
+      population: 246659
+    },
+    {
+      year: 2003,
+      population: 250263
+    },
+    {
+      year: 2004,
+      population: 253866
+    },
+    {
+      year: 2005,
+      population: 257470
+    },
+    {
+      year: 2006,
+      population: 261073
+    },
+    {
+      year: 2007,
+      population: 264677
+    },
+    {
+      year: 2008,
+      population: 268280
+    },
+    {
+      year: 2009,
+      population: 271884
+    },
+    {
       year: 2010,
       population: 275487
+    },
+    {
+      year: 2011,
+      population: 277158
+    },
+    {
+      year: 2012,
+      population: 278829
+    },
+    {
+      year: 2013,
+      population: 280500
+    },
+    {
+      year: 2014,
+      population: 282171
+    },
+    {
+      year: 2015,
+      population: 283843
+    },
+    {
+      year: 2016,
+      population: 285514
+    },
+    {
+      year: 2017,
+      population: 287185
+    },
+    {
+      year: 2018,
+      population: 288856
+    },
+    {
+      year: 2019,
+      population: 290527
     },
     {
       year: 2020,
@@ -719,6 +791,10 @@ const popDatapoints = {
     {
       year: 2021,
       population: 295921
+    },
+    {
+      year: 2022,
+      population: 299130
     }
   ]
 };

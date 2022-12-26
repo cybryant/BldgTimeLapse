@@ -42,7 +42,8 @@ require([
       id: "a81508218fdf4be9bc5b7070e3f957cb"
     },
     //definitionExpression: "yrBuilt > 0",
-    title: "parcelWithBldgAge",
+    // title: "parcelWithBldgAge",
+    title: "Buildings",
     //minScale: 72223.819286,
     effect: "bloom(1.25 0 0.5)",
     outFields: ["exlanduse"] //need this parameter to use in the land use filter; if this same field were required for the renderer or labels, wouldn't need to define it again here
@@ -56,7 +57,8 @@ require([
     //   const annexLayer = new GeoJSONLayer({
     //     url: "https://intervector.leoncountyfl.gov/intervector/rest/services/MapServices/TLC_OverlayCityAnnexHistory_D_WM/MapServer/0/query?outFields=*&where=1%3D1&f=geojson",
     title: "City Limit",
-    labelsVisible: false
+    labelsVisible: false,
+    legendEnabled: false
     //effect: "bloom(2.5 0 0.5)",
   });
 
@@ -100,7 +102,7 @@ require([
   /*********************************************/
   /*             Population Chart              */
   /*********************************************/
-  // be sure to reference popDatapoint.js as an src in the hmtl
+  // be sure to reference popDatapoint.js as an src in the html
 
   // create an array of year values from the external popDatapoint.js file
   const popYears = popDatapoints.popHistory.map(function (index) {
@@ -113,7 +115,6 @@ require([
   });
 
   let changingPop = population[0];
-  // let changingPop = population.slice(0, 20);
 
   // set chart data parameters
   const data = {
@@ -121,10 +122,9 @@ require([
     datasets: [
       {
         label: false,
-        // backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgb(255, 99, 132)",
+        // backgroundColor: "rgba(255, 99, 132, .6)",
+        borderColor: "rgb(255, 99, 132, .6)",
         // fill: true,
-        // data: population
         data: changingPop
       }
     ]
@@ -135,7 +135,47 @@ require([
     type: "line",
     data: data,
     options: {
-      responsive: true
+      responsive: true,
+      legend: {
+        display: false
+      },
+      title: {
+        display: true,
+        text: "Annual Leon County Population",
+        fontFamily:
+          "'Avenir Next W00','Helvetica Neue', Helvetica, Arial, sans-serif"
+      },
+      scales: {
+        yAxes: [
+          {
+            ticks: {
+              // min: 5000,
+              // beginAtZero: true,
+              // this will return the y-axis values with a thousand separator (i.e. comma)
+              callback: (value) => {
+                return value.toLocaleString();
+              }
+            },
+            gridLines: {
+              zeroLineColor: "#d1d1d1",
+              color: "#696969"
+            }
+          }
+        ],
+        xAxes: [
+          {
+            ticks: {
+              max: 2020,
+              // maxTicksLimit: 20,
+              callback: (value) => {
+                if (value % 20 == 0) {
+                  return value;
+                }
+              }
+            }
+          }
+        ]
+      }
     }
   };
 
@@ -143,11 +183,6 @@ require([
     document.getElementById("popChartPanel"),
     config
   );
-
-  // set the initial index for popYears (ie, the first year in the array);
-  // this will be used in updateChart()
-  let yrIndex = -7; // this is what it will be if I add population back to 1824
-  // this is an adjustment to let it run from 1824
 
   /*********************************************/
   /*             Land Use Filter               */
@@ -207,8 +242,8 @@ require([
     stopAnimation();
     setYear(event.value);
     updateChart(event.value);
-    console.log(event.value);
   }
+
   slider.on("thumb-drag", inputHandler);
 
   // Toggle animation on/off when user
@@ -245,7 +280,8 @@ require([
   );
   view.ui.add(
     new Legend({
-      view: view
+      view: view,
+      id: "legendBox"
     }),
     "bottom-left"
   );
@@ -291,25 +327,14 @@ require([
   /*********************************************/
   function updateChart(year) {
     year = Math.floor(year);
-    console.log("THIS IS YEAR OUTSIDE 'FOR' LOOP: " + year);
     for (let x in popYears) {
       if (popYears[x] == year) {
         let popYrIndex = popYears.indexOf(popYears[x]);
-        // console.log("popYrIndex inside 'if' statement: " + popYrIndex);
-        // console.log("year inside 'if' statment: " + year);
         changingPop = population.slice(0, popYrIndex + 1);
-        // console.log("changingPop inside 'if' statement: " + changingPop);
-        // return changingPop;
         populationChart.config.data.datasets[0].data = changingPop;
         populationChart.update();
       }
-      // console.log("outside if statement changingPop is: " + changingPop);
-      // populationChart.update();
-      // return changingPop;
     }
-    // populationChart.config.data.datasets[0].data = changingPop;
-    // console.log("outside 'for' loop changingPop is: " + changingPop);
-    // populationChart.update();
   }
 
   /*********************************************/
@@ -378,7 +403,7 @@ require([
           type: "color",
           field: "yrBuilt",
           legendOptions: {
-            title: "Building Built:"
+            title: "Year Built:"
           },
           stops: [
             {

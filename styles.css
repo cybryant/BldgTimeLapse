@@ -147,35 +147,47 @@ body {
   background-color: dimgrey;
 }
 
+#popChartPanel {
+  background-color: rgba(30, 30, 30, 0.75);
+}
+
+/* ESRI STYLING OVERRIDES */
+
+/* width of legend */
+div.esri-component.esri-legend.esri-widget.esri-widget--panel {
+  max-width: 175px;
+  background-color: rgba(30, 30, 30, 0.75);
+}
+
 /* Collapsible Sidebar */
 /* The sidepanel menu */
-.sidepanel {
+/* .sidepanel {
   height: 350px; Specify a height
   width: 0;  width - change this with JavaScript
   position: fixed; /*Stay in place*/
-  z-index: 1; /* Stay on top */
-  top: 0;
-  right: 0;
-  background-color: #818181; /* Black*/
-  /* overflow-x: hidden; Disable horizontal scroll */
-  padding-top: 60px; /* Place content 60px from the top */
-  transition: 0.5s; /* 0.5 second transition effect to slide in the sidepanel */
-}
+/* z-index: 1; Stay on top */
+/* top: 0; */
+/* right: 0; */
+/* background-color: #818181; Black */
+/* overflow-x: hidden; Disable horizontal scroll */
+/* padding-top: 60px; Place content 60px from the top */
+/* transition: 0.5s; 0.5 second transition effect to slide in the sidepanel */
+/* } */
 
 /* The sidepanel links */
-.sidepanel a {
+/*.sidepanel a {
   padding: 8px 8px 8px 10px;
   text-decoration: none;
   font-size: 25px;
   color: whitesmoke;
   display: block;
   transition: 0.3s;
-}
+} */
 
 /* When you mouse over the navigation links, change their color */
-.sidepanel a:hover {
+/*.sidepanel a:hover {
   color: #f1f1f1;
-}
+}*/
 
 /* Position and style the close button (top right corner) */
 /* .sidepanel .closebtn {
