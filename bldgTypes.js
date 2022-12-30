@@ -6,6 +6,7 @@ require([
   "esri/widgets/Legend",
   "esri/widgets/Home",
   "esri/widgets/Slider",
+  "esri/widgets/Zoom",
   "esri/widgets/Fullscreen",
   "esri/widgets/Expand",
   "esri/layers/GeoJSONLayer",
@@ -18,6 +19,7 @@ require([
   Legend,
   Home,
   Slider,
+  Zoom,
   Fullscreen,
   Expand,
   GeoJSONLayer,
@@ -58,7 +60,8 @@ require([
     //     url: "https://intervector.leoncountyfl.gov/intervector/rest/services/MapServices/TLC_OverlayCityAnnexHistory_D_WM/MapServer/0/query?outFields=*&where=1%3D1&f=geojson",
     title: "City Limit",
     labelsVisible: false,
-    legendEnabled: false
+    legendEnabled: false,
+    visible: false
     //effect: "bloom(2.5 0 0.5)",
   });
 
@@ -76,8 +79,9 @@ require([
   const view = new MapView({
     map: map,
     container: "viewDiv",
-    center: [-84.2807, 30.49],
-    zoom: 11,
+    center: [-84.2807, 30.5],
+    scale: 250000,
+    // zoom: 10,
     constraints: {
       snapToZoom: false
       //minScale: 72223.819286,
@@ -91,16 +95,16 @@ require([
   });
 
   /*********************************************/
-  /*            SETUP USER INTERFACE           */
+  /*                                           */
   /*********************************************/
 
+  // access DOM elements
   const applicationDiv = document.getElementById("applicationDiv");
-  const sliderValue = document.getElementById("sliderValue");
-  const playButton = document.getElementById("playButton");
+
   const titleDiv = document.getElementById("titleDiv");
 
   /*********************************************/
-  /*             Population Chart              */
+  /*             POPULATION CHART              */
   /*********************************************/
   // be sure to reference popDatapoint.js as an src in the html
 
@@ -123,7 +127,8 @@ require([
       {
         label: false,
         // backgroundColor: "rgba(255, 99, 132, .6)",
-        borderColor: "rgb(255, 99, 132, .6)",
+        // borderColor: "rgb(255, 99, 132, .6)",
+        borderColor: "orange",
         // fill: true,
         data: changingPop
       }
@@ -149,7 +154,7 @@ require([
         yAxes: [
           {
             ticks: {
-              // min: 5000,
+              min: 0,
               // beginAtZero: true,
               // this will return the y-axis values with a thousand separator (i.e. comma)
               callback: (value) => {
@@ -168,7 +173,7 @@ require([
               max: 2020,
               // maxTicksLimit: 20,
               callback: (value) => {
-                if (value % 20 == 0) {
+                if (value % 40 == 0) {
                   return value;
                 }
               }
@@ -189,40 +194,79 @@ require([
   /*********************************************/
   // filter variables
   const landUseNodes = document.querySelectorAll(`.landUse-item`); // get all the landUse categories from the HTML
-  const landUseElement = document.getElementById("landUse-filter"); // get the DOM division that will hold the filter
+  const landUseFilter = document.getElementById("landUse-filter"); // get the DOM division that will hold the filter
   // initialize a variable to hold the data filtered by land use but don't define it yet; will be a LayerView object.
   let landUseLayerView;
 
   // click event handler for landUse filter
-  landUseElement.addEventListener("click", filterByLandUse);
+  landUseFilter.addEventListener("click", filterByLandUse);
 
   // when the LayerView is available, set up filtering functionality
   view.whenLayerView(layer).then((layerView) => {
     // layer loaded
     // get a reference to the layerview
     landUseLayerView = layerView;
+    return landUseLayerView;
+  });
 
-    // set up filter item
-    landUseElement.style.visibility = "visible";
-    const landUseExpand = new Expand({
-      view: view,
-      content: landUseElement,
-      expandIconClass: "esri-icon-filter",
-      group: "top-left"
-    });
+  // set up filter item
+  landUseFilter.style.visibility = "visible";
+  const filterLandUseBtn = new Expand({
+    view: view,
+    content: landUseFilter,
+    expandTooltip: "Filter by Land Use",
+    expandIconClass: "esri-icon-filter",
+    group: "top-left"
+  });
 
-    //clear the filters when user closes the expand widget
-    landUseExpand.watch("expanded", () => {
-      if (!landUseExpand.expanded) {
-        landUseLayerView.filter = null;
-      }
-    });
-    view.ui.add(landUseExpand, "top-left");
+  //clear the filters when user closes the expand widget
+  filterLandUseBtn.watch("expanded", () => {
+    if (!filterLandUseBtn.expanded) {
+      landUseLayerView.filter = null;
+    }
   });
 
   /*********************************************/
-  /*             Slider Widget                 */
+  /*         OPTIONS PANEL & ELEMENTS          */
   /*********************************************/
+
+  // get reference to the DOM element
+  const optionsPanel = document.getElementById("optionsPanel");
+
+  const optionsPanelExpand = new Expand({
+    view: view,
+    content: optionsPanel,
+    expandIconClass: "esri-icon-settings",
+    expandTooltip: "Change Display Settings"
+  });
+
+  /*********************************************/
+  /*             City Limit Toggle             */
+  /*********************************************/
+  // get reference to div element
+  const checkboxID = document.getElementById("checkboxID");
+
+  // watch for when toggle is changed & call function
+  cityLimToggle.onchange = () => {
+    toggleCityLimits();
+  };
+
+  function toggleCityLimits() {
+    if (checkboxID.checked) {
+      cityLimLayer.visible = true;
+    } else {
+      cityLimLayer.visible = false;
+    }
+  }
+
+  /*********************************************/
+  /*             SLIDER WIDGET                 */
+  /*********************************************/
+
+  // get reference to the DOM elements
+  const sliderValue = document.getElementById("sliderValue");
+  const playButton = document.getElementById("playButton");
+
   //create the slider widget
   const slider = new Slider({
     container: "slider",
@@ -268,29 +312,38 @@ require([
   /*********************************************/
   /*            Place UI Elements              */
   /*********************************************/
+
+  // place in the application view
   view.ui.empty("top-left");
   view.ui.add(titleDiv, "top-left");
+  view.ui.add(optionsPanelExpand, "top-left");
   view.ui.add(popChartPanel, "bottom-right");
-  // view.ui.add(openButton, "top-right");
-  view.ui.add(
-    new Home({
-      view: view
-    }),
-    "top-left"
-  );
-  view.ui.add(
-    new Legend({
-      view: view,
-      id: "legendBox"
-    }),
-    "bottom-left"
-  );
   view.ui.add(
     new Fullscreen({
       view: view,
       element: applicationDiv
     }),
     "top-right"
+  );
+  view.ui.add(
+    new Home({
+      view: view
+    }),
+    "top-right"
+  );
+  view.ui.add(
+    new Zoom({
+      view: view
+    }),
+    "top-right"
+  );
+  view.ui.add(filterLandUseBtn, "top-right");
+  view.ui.add(
+    new Legend({
+      view: view
+      // id: "legendBox"
+    }),
+    "bottom-left"
   );
 
   /*********************************************/
@@ -459,8 +512,8 @@ require([
         return;
       }
 
-      // value += 0.5;
-      value += 1;
+      value += 0.5;
+      // value += 1;
       if (value > 2021) {
         value = 1824;
       }
@@ -471,7 +524,7 @@ require([
       // Update at 10fps
       setTimeout(() => {
         requestAnimationFrame(frame);
-      }, 1000 / 10);
+      }, 1000 / 15);
     };
 
     frame();
@@ -598,7 +651,7 @@ require([
   }
 
   /*********************************************/
-  /*     Land Use Filter for Radio Buttons     */
+  /*     Land Use Filter    */
   /*********************************************/
   function filterByLandUse(event) {
     const selectedLandUse = event.target.getAttribute("data-landUse");

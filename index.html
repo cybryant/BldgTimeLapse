@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
     <link
       rel="stylesheet"
-      href="https://js.arcgis.com/4.23/esri/themes/dark/main.css"
+      href="https://js.arcgis.com/4.25/esri/themes/dark/main.css"
     />
 
     <!-- sets empty favicon to avoid 404 error in some browsers -->
@@ -51,7 +51,7 @@
 
       <!-- main window -->
       <div id="viewDiv">
-        <div id="titleDiv" class="esri-widget">Tallahassee Buildings</div>
+        <div id="titleDiv" class="esri-widget">Leon County Buildings</div>
 
         <!-- collapsible sidepanel -->
         <!-- This was based on the W3 template, but for any elements that you want to appear inside the application window, add a 
@@ -109,6 +109,66 @@
             Pause
           </div>
         </div>
+      </div>
+
+      <div id="optionsPanel" class="esri-widget">
+        <div id="cityLimToggle" class="esri-widget">
+          <b>City Limits:&nbsp;&nbsp;</b>
+          <label class="toggle">
+            <input id="checkboxID" type="checkbox" checked="no" />
+            <span
+              class="labels"
+              data-checked="SHOWING"
+              data-notChecked="HIDDEN"
+            ></span>
+          </label>
+        </div>
+        <div id="renderBtns">
+          <br />
+          <b>Display new construction as:</b>
+          <br />
+          <!-- points -->
+          <input
+            type="radio"
+            id="points"
+            name="renderType"
+            value="points"
+            checked
+          />
+          <label for="points">points&nbsp;&nbsp;</label>
+          <!-- parcels -->
+          <input type="radio" id="parcels" name="renderType" value="parcels" />
+          <label for="parcels">parcels</label>
+          <br />
+          <br />
+        </div>
+        <div id="filterBtns">
+          <b>Filter Land Use:</b> <br />
+          <!-- no filter -->
+          <input
+            type="radio"
+            id="noFilter"
+            name="trailTypes"
+            value="noFilter"
+            checked
+          />
+          <label for="noFilter">none</label>
+          <!-- shared use trails -->
+          <input type="radio" id="shared" name="trailTypes" value="shared" />
+          <label for="shared">shared</label>
+          <!-- hiking trails -->
+          <input type="radio" id="hike" name="trailTypes" value="hike" />
+          <label for="hike">hike</label>
+          <!-- biking trails -->
+          <input type="radio" id="bike" name="trailTypes" value="bike" />
+          <label for="bike">bike</label>
+          <!-- access trails -->
+          <input type="radio" id="access" name="trailTypes" value="access" />
+          <label for="access">access</label>
+          <br />
+          <br />
+        </div>
+        <div><b>Show charts:</b> <br /></div>
       </div>
     </div>
 
