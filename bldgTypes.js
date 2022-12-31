@@ -146,7 +146,7 @@ require([
       },
       title: {
         display: true,
-        text: "Annual Leon County Population",
+        // text: "Annual Leon County Population",
         fontFamily:
           "'Avenir Next W00','Helvetica Neue', Helvetica, Arial, sans-serif"
       },
@@ -184,11 +184,26 @@ require([
     }
   };
 
-  const populationChart = new Chart(
-    document.getElementById("popChartPanel"),
-    config
-  );
+  const popChartCanvas = document.getElementById("popChartCanvas");
+  const populationChart = new Chart(popChartCanvas, config);
 
+  // TOGGLE SWITCH FOR CHART
+  // watch for when toggle is changed & call function
+  // get reference to div element
+  const checkboxID_popChart = document.getElementById("checkboxID_popChart");
+
+  // watch for when toggle is changed & call function
+  popChartToggle.onchange = () => {
+    chartToggleSwitch(checkboxID_popChart, popChartCanvas);
+  };
+
+  function chartToggleSwitch(checkboxID, appObject) {
+    if (checkboxID.checked) {
+      appObject.style.display = "";
+    } else {
+      appObject.style.display = "none";
+    }
+  }
   /*********************************************/
   /*             Land Use Filter               */
   /*********************************************/
@@ -244,15 +259,20 @@ require([
   /*             City Limit Toggle             */
   /*********************************************/
   // get reference to div element
-  const checkboxID = document.getElementById("checkboxID");
+  const checkboxID_cityLim = document.getElementById("checkboxID_cityLim");
 
-  // watch for when toggle is changed & call function
+  // TEMP REFERENCE - when toggle function was used for city & charts
+  // // watch for when toggle is changed & call function
+  // cityLimToggle.onchange = () => {
+  //   toggleSwitch(checkboxID_cityLim, cityLimLayer);
+  // };
+
   cityLimToggle.onchange = () => {
     toggleCityLimits();
   };
 
   function toggleCityLimits() {
-    if (checkboxID.checked) {
+    if (checkboxID_cityLim.checked) {
       cityLimLayer.visible = true;
     } else {
       cityLimLayer.visible = false;
@@ -312,32 +332,36 @@ require([
   /*********************************************/
   /*            Place UI Elements              */
   /*********************************************/
+  const sidebarToggler = document.getElementById("sidebarToggler");
+  const chartsSidebar = document.getElementById("chartsSidebar");
 
   // place in the application view
   view.ui.empty("top-left");
   view.ui.add(titleDiv, "top-left");
-  view.ui.add(optionsPanelExpand, "top-left");
-  view.ui.add(popChartPanel, "bottom-right");
+  // view.ui.add(popChartPanel, "bottom-right");
   view.ui.add(
     new Fullscreen({
       view: view,
       element: applicationDiv
     }),
-    "top-right"
+    "bottom-right"
   );
   view.ui.add(
     new Home({
       view: view
     }),
-    "top-right"
+    "top-left"
   );
   view.ui.add(
     new Zoom({
       view: view
     }),
-    "top-right"
+    "top-left"
   );
-  view.ui.add(filterLandUseBtn, "top-right");
+  view.ui.add(optionsPanelExpand, "top-left");
+  view.ui.add(sidebarToggler, "top-right");
+  view.ui.add(filterLandUseBtn, "bottom-right");
+  view.ui.add(chartsSidebar, "bottom-right");
   view.ui.add(
     new Legend({
       view: view
@@ -659,6 +683,28 @@ require([
       where: "exlanduse = '" + selectedLandUse + "'"
     };
   }
+
+  /*********************************************/
+  /*             Toggle Switch                 */
+  /*********************************************/
+
+  // FIRST TRY AT ONE FUNCTION TO CONTROL ALL SWITCHES; DIDN'T WORK FOR CHARTS SINCE PROPERTY NAME IS DIFFERENT
+  // function toggleSwitch(checkboxID, appObject) {
+  //   if (checkboxID.checked) {
+  //     appObject.visible = true;
+  //   } else {
+  //     appObject.visible = false;
+  //   }
+  // }
+
+  //TEMPORARILY COMMENTED OUT WHILE COPY IS ADJUSTED NEXT TO CHART
+  // function toggleSwitch(checkboxID, appObject) {
+  //   if (checkboxID.checked) {
+  //     appObject.hidden = true;
+  //   } else {
+  //     appObject.hidden = false;
+  //   }
+  // }
 });
 
 /*********************************************/
@@ -674,3 +720,19 @@ require([
 //   document.getElementById("sidePanel").style.width = "0";
 //   // document.getElementById("main").style.marginLeft = "0";
 // }
+
+/************************/
+/*SIDEBAR*/
+/************************/
+const $toggler = document.querySelector(".toggler");
+const $sidebar = document.querySelector(".sidebar");
+// const $main = document.querySelector(".main");
+const $closeSidebarButton = document.querySelector(".closeSidebarButton");
+
+$closeSidebarButton.addEventListener("click", () => {
+  $sidebar.classList.remove("is-opened");
+});
+
+$toggler.addEventListener("click", () => {
+  $sidebar.classList.toggle("is-opened");
+});

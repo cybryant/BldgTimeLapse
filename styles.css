@@ -147,7 +147,7 @@ body {
   background-color: dimgrey;
 }
 
-#popChartPanel {
+#popChartCanvas {
   background-color: rgba(30, 30, 30, 0.9);
 }
 
@@ -218,11 +218,18 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
   flex-direction: column;
   width: 240px;
   padding: 10px 15px;
+  border: 2px solid dimgray;
 }
 
 /*****************/
 /* ON/OFF TOGGLE BUTTON
 /*****************/
+.togSwitch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #cityLimToggle {
   display: flex;
   align-items: center;
@@ -295,4 +302,90 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
 
 .toggle input:checked ~ .labels::before {
   transform: translateX(var(--width));
+}
+
+/**********************/
+/*SIDEBAR*/
+/**********************/
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#popChartPanel {
+  margin: 0px 10px 10px 10px;
+}
+
+#sidebarToggler {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.sidebar {
+  height: 85%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #111;
+  padding-top: 60px;
+  /* padding-right: 10px; /*makes black bar because pushes 10 px of the panel into the view all the time */
+  transition: 0.5s;
+  overflow-x: hidden;
+  color: #f1f1f1;
+}
+
+.sidebar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  color: #f1f1f1;
+}
+
+.sidebar.is-opened {
+  /* width: 250px; */
+  /* Full width */
+  width: 25%;
+  margin: 10px;
+  text-align: center;
+}
+
+/* .sidebar.is-opened + .main { */
+/* Sidebar overlay */
+/* margin-left: 250px; */
+/* Move main */
+/* transition: margin-left 0.5s; */
+/* Hide main */
+/* background: rgba(0, 0, 0, 0.4); */
+/* } */
+
+.sidebar .closeSidebarButton {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+  color: #818181;
+  cursor: pointer;
+}
+
+.sidebar .closeSidebarButton:hover {
+  color: #f1f1f1;
+}
+
+.toggler {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.main {
+  height: 100vh;
+  padding: 25px;
 }
