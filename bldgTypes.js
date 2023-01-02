@@ -9,6 +9,7 @@ require([
   "esri/widgets/Zoom",
   "esri/widgets/Fullscreen",
   "esri/widgets/Expand",
+  "esri/layers/support/FeatureEffect",
   "esri/layers/GeoJSONLayer",
   "esri/geometry/geometryEngine"
 ], (
@@ -22,6 +23,7 @@ require([
   Zoom,
   Fullscreen,
   Expand,
+  FeatureEffect,
   GeoJSONLayer,
   geometryEngine
 ) => {
@@ -48,6 +50,7 @@ require([
     title: "Buildings",
     //minScale: 72223.819286,
     effect: "bloom(1.25 0 0.5)",
+    //DON'T THINK I NEED THIS ANYMORE WITH NEW FILTER SETUP
     outFields: ["exlanduse"] //need this parameter to use in the land use filter; if this same field were required for the renderer or labels, wouldn't need to define it again here
   });
 
@@ -204,42 +207,6 @@ require([
       appObject.style.display = "none";
     }
   }
-  /*********************************************/
-  /*             Land Use Filter               */
-  /*********************************************/
-  // filter variables
-  const landUseNodes = document.querySelectorAll(`.landUse-item`); // get all the landUse categories from the HTML
-  const landUseFilter = document.getElementById("landUse-filter"); // get the DOM division that will hold the filter
-  // initialize a variable to hold the data filtered by land use but don't define it yet; will be a LayerView object.
-  let landUseLayerView;
-
-  // click event handler for landUse filter
-  landUseFilter.addEventListener("click", filterByLandUse);
-
-  // when the LayerView is available, set up filtering functionality
-  view.whenLayerView(layer).then((layerView) => {
-    // layer loaded
-    // get a reference to the layerview
-    landUseLayerView = layerView;
-    return landUseLayerView;
-  });
-
-  // set up filter item
-  landUseFilter.style.visibility = "visible";
-  const filterLandUseBtn = new Expand({
-    view: view,
-    content: landUseFilter,
-    expandTooltip: "Filter by Land Use",
-    expandIconClass: "esri-icon-filter",
-    group: "top-left"
-  });
-
-  //clear the filters when user closes the expand widget
-  filterLandUseBtn.watch("expanded", () => {
-    if (!filterLandUseBtn.expanded) {
-      landUseLayerView.filter = null;
-    }
-  });
 
   /*********************************************/
   /*         OPTIONS PANEL & ELEMENTS          */
@@ -280,6 +247,74 @@ require([
   }
 
   /*********************************************/
+  /*     Points/Parcels Display Buttons        */
+  /*********************************************/
+
+  let symbolProperties;
+  let points = {
+    type: "simple-marker",
+    style: "circle",
+    color: "rgb(0,0,0)",
+    size: "5px",
+    outline: null
+  };
+
+  let parcels = {
+    type: "simple-fill",
+    color: "rgb(0, 0, 0)",
+    outline: null
+  };
+
+  document.getElementById("displayBtns").addEventListener("change", (event) => {
+    let targetDisplay = event.target;
+    if (targetDisplay.id == "points") {
+      return (symbolProperties = points);
+    } else {
+      return (symbolProperties = parcels);
+    }
+  });
+
+  /*********************************************/
+  /*              Land Use Filter              */
+  /*********************************************/
+  /* rather than filtering the layer on the server side, we create a layerview once the layer loads & filter it on the client side (aka browser). This results in smoother, faster performance since it avoids multiple callbacks */
+
+  // initialize a variable to hold the layerview
+  let landUseLayerView;
+
+  // once layerView loads, assign to the variable & return it
+  view.whenLayerView(layer).then((layerView) => {
+    landUseLayerView = layerView;
+    return landUseLayerView;
+  });
+
+  // event listener for the radio buttons (be sure to set initial button in index.html)
+  document.getElementById("filterBtns").addEventListener("change", (event) => {
+    filterLandUse(event);
+  });
+
+  // make unselected features gray
+  function filterLandUse(event) {
+    const selectedLandUse = event.target.getAttribute("data-landUse");
+    let featureFilter = {
+      where: "exlanduse = '" + selectedLandUse + "'"
+    };
+    if (featureFilter && selectedLandUse != "noFilter") {
+      landUseLayerView.featureEffect = new FeatureEffect({
+        filter: featureFilter,
+        // includedEffect: "drop-shadow(3px 3px 3px)",
+        excludedEffect: "opacity(35%) grayscale(99%)"
+      });
+    } else {
+      // this is the 'noFilter' reset so no effect is applied to anything
+      landUseLayerView.featureEffect = new FeatureEffect({
+        filter: featureFilter,
+        excludedEffect: ""
+      });
+    }
+  }
+
+  /*********************************************/
   /*             SLIDER WIDGET                 */
   /*********************************************/
 
@@ -301,7 +336,8 @@ require([
 
   // When user drags the slider:
   //  - stops the animation
-  //  - set the visualized year to the slider one.
+  //  - set the visualized year to the slider one
+  //  - updates the charts based on the year value from the slider
   function inputHandler(event) {
     stopAnimation();
     setYear(event.value);
@@ -360,7 +396,7 @@ require([
   );
   view.ui.add(optionsPanelExpand, "top-left");
   view.ui.add(sidebarToggler, "top-right");
-  view.ui.add(filterLandUseBtn, "bottom-right");
+  // view.ui.add(filterLandUseBtn, "bottom-right");
   view.ui.add(chartsSidebar, "bottom-right");
   view.ui.add(
     new Legend({
@@ -382,6 +418,9 @@ require([
 
   // animation won't start until user presses 'Play'
   let animation = null;
+
+  // set new construction to render as points by default
+  symbolProperties = points;
 
   /*********************************************/
   /*               FUNCTIONS                   */
@@ -446,7 +485,11 @@ require([
   /*********************************************/
   /*            Renderer: Buildings            */
   /*********************************************/
-  function createRenderer(year) {
+
+  function createRenderer(year, symbolProps) {
+    /* since rendering of new construction can be changed by the user, the first step is to get the value of symbolProperties from either the intial app settings or the point/parcel radio buttons */
+    symbolProps = symbolProperties;
+
     const opacityStops = [
       {
         opacity: 1,
@@ -460,13 +503,7 @@ require([
 
     return {
       type: "simple",
-      symbol: {
-        type: "simple-marker",
-        style: "circle",
-        color: "rgb(0,0,0)",
-        size: "5px",
-        outline: null
-      },
+      symbol: symbolProps,
       visualVariables: [
         {
           type: "opacity",
@@ -672,16 +709,6 @@ require([
         () => {}
       );
     });
-  }
-
-  /*********************************************/
-  /*     Land Use Filter    */
-  /*********************************************/
-  function filterByLandUse(event) {
-    const selectedLandUse = event.target.getAttribute("data-landUse");
-    landUseLayerView.filter = {
-      where: "exlanduse = '" + selectedLandUse + "'"
-    };
   }
 
   /*********************************************/

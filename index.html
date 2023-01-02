@@ -24,31 +24,6 @@
 
   <body>
     <div id="applicationDiv">
-      <!-- filter widget -->
-      <div id="landUse-filter" class="esri-widget">
-        <div class="landUse-item visible-landUse" data-landUse="Multi-Family">
-          Multi-Family
-        </div>
-        <div
-          class="landUse-item visible-landUse"
-          data-landUse="Single Family Attached"
-        >
-          Single Family Attached
-        </div>
-        <div
-          class="landUse-item visible-landUse"
-          data-landUse="Single Family Detached/Mobile Home"
-        >
-          Single Family Detached
-        </div>
-        <div class="landUse-item visible-landUse" data-landUse="Office">
-          Office
-        </div>
-        <div class="landUse-item visible-landUse" data-landUse="Retail">
-          Retail
-        </div>
-      </div>
-
       <!-- main window -->
       <div id="viewDiv">
         <div id="titleDiv" class="esri-widget">Leon County Buildings</div>
@@ -100,6 +75,9 @@
       <!-- OPTIONS PANEL -->
       <!------------------->
       <div id="optionsPanel" class="esri-widget">
+        <!----------------------->
+        <!-- city limit toggle -->
+        <!----------------------->
         <div id="cityLimToggle" class="esri-widget" class="togSwitch">
           <b>City Limits:&nbsp;&nbsp;</b>
           <label class="toggle">
@@ -111,52 +89,138 @@
             ></span>
           </label>
         </div>
-        <div id="renderBtns">
-          <br />
-          <b>Display New Construction As:</b>
-          <br />
+
+        <!----------------------->
+        <!-- set display type  -->
+        <!----------------------->
+        <fieldset id="displayBtns" class="fieldset">
+          <legend><b>Display New Construction As:</b></legend>
           <!-- points -->
-          <input
-            type="radio"
-            id="points"
-            name="renderType"
-            value="points"
-            checked
-          />
-          <label for="points">points&nbsp;&nbsp;</label>
+          <label
+            ><input
+              type="radio"
+              id="points"
+              name="renderType"
+              value="points"
+              checked
+            />&nbsp;points&nbsp;&nbsp;&nbsp;</label
+          >
           <!-- parcels -->
-          <input type="radio" id="parcels" name="renderType" value="parcels" />
-          <label for="parcels">parcels</label>
-          <br />
-          <br />
-        </div>
-        <div id="filterBtns">
-          <b>Filter by Land Use:</b> <br />
+          <label
+            ><input
+              type="radio"
+              id="parcels"
+              name="renderType"
+              value="parcels"
+            />&nbsp;parcels</label
+          >
+        </fieldset>
+
+        <!----------------------->
+        <!--  land use filter  -->
+        <!----------------------->
+        <!-- the id's, names & values for each button may not be needed with the revised filter function; leaving in case update the filter in the future-->
+        <fieldset id="filterBtns" class="fieldset" class="radiocontainer">
+          <legend><b>Highlight Land Use:</b></legend>
           <!-- no filter -->
-          <input
-            type="radio"
-            id="noFilter"
-            name="trailTypes"
-            value="noFilter"
-            checked
-          />
-          <label for="noFilter">none</label>
-          <!-- shared use trails -->
-          <input type="radio" id="shared" name="trailTypes" value="shared" />
-          <label for="shared">shared</label>
-          <!-- hiking trails -->
-          <input type="radio" id="hike" name="trailTypes" value="hike" />
-          <label for="hike">hike</label>
-          <!-- biking trails -->
-          <input type="radio" id="bike" name="trailTypes" value="bike" />
-          <label for="bike">bike</label>
-          <!-- access trails -->
-          <input type="radio" id="access" name="trailTypes" value="access" />
-          <label for="access">access</label>
-          <br />
-          <br />
-        </div>
-        <div><b>Show charts:</b> <br /></div>
+          <label
+            ><input
+              type="radio"
+              id="noFilter"
+              name="landUses"
+              data-landUse="noFilter"
+              value="noFilter"
+              checked />&nbsp;all<br
+          /></label>
+          <!-- multifamily-->
+          <label
+            ><input
+              type="radio"
+              id="multifamily"
+              name="landUses"
+              data-landUse="Multi-Family"
+              value="Multi-Family" />&nbsp;multifamily<br
+          /></label>
+          <!-- single family attached -->
+          <label
+            ><input
+              type="radio"
+              id="singleFamAttached"
+              name="landUses"
+              data-landUse="Single Family Attached"
+              value="Single Family Attached" />&nbsp;single-family attached<br
+          /></label>
+          <!-- single family detached & mobile homes -->
+          <label
+            ><input
+              type="radio"
+              id="singleFamDetached"
+              name="landUses"
+              data-landUse="Single Family Detached/Mobile Home"
+              value="Single Family Detached/Mobile Home" />&nbsp;single-family
+            detached<br
+          /></label>
+          <label
+            ><input
+              type="radio"
+              id="twoFamDwelling"
+              name="landUses"
+              data-landUse="Two-Family Dwelling"
+              value="Two-Family Dwelling" />&nbsp;two-family dwelling<br
+          /></label>
+          <!-- office -->
+          <label
+            ><input
+              type="radio"
+              id="office"
+              name="landUses"
+              data-landUse="Office"
+              value="Office" />&nbsp;office<br
+          /></label>
+          <!-- retail -->
+          <label
+            ><input
+              type="radio"
+              id="retail"
+              name="landUses"
+              data-landUse="Retail"
+              value="Retail" />&nbsp;retail<br
+          /></label>
+          <!-- industrial -->
+          <label
+            ><input
+              type="radio"
+              id="govOps"
+              name="landUses"
+              data-landUse="Government Operation"
+              value="Government Operation" />&nbsp;government operation<br
+          /></label>
+          <label
+            ><input
+              type="radio"
+              id="hotel/mo&nbsp;tel"
+              name="landUses"
+              data-landUse="Hotel/Motel"
+              value="Hotel/Motel" />&nbsp;hotel/motel<br
+          /></label>
+          <label
+            ><input
+              type="radio"
+              id="schools"
+              name="landUses"
+              data-landUse="Schools/Colleges/Universities"
+              value="Schools/Colleges/Universities" />&nbsp;schools/colleges<br
+          /></label>
+          <label
+            ><input
+              type="radio"
+              id="warehouse"
+              name="landUses"
+              data-landUse="Warehouse"
+              value="Warehouse"
+            />&nbsp;warehouse</label
+          >
+        </fieldset>
 
         <div id="chartsSidebar" class="sidebar">
           <span class="closeSidebarButton">&times;</span>

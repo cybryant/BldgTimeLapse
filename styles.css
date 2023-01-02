@@ -212,13 +212,37 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
   background-color: #444;
 }
 
-/* Options Panel */
+/*****************/
+/* OPTIONS PANEL */
+/*****************/
 #optionsPanel {
   display: flex;
   flex-direction: column;
   width: 240px;
   padding: 10px 15px;
   border: 2px solid dimgray;
+}
+
+.fieldset {
+  margin-top: 15px;
+  padding: 5px;
+  border: 1px solid dimgray;
+}
+
+.radiocontainer {
+  display: inline-flex;
+  flex-direction: row-reverse;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.radiocontainer input,
+.radiocontainer label {
+  margin: 0;
+}
+
+.radiocontainer input {
+  width: 20px;
 }
 
 /*****************/
