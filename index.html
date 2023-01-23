@@ -227,31 +227,28 @@
 
           <!-- CHART.JS POPULATION CHART -->
           <div id="popDiv">
-            <!-- <div class="esri-widget__heading">
-              <h4>Annual Population</h4>
-            </div> -->
+            <!-- Chart Title & Toggle Switch -->
             <div id="popChartToggle" class="togSwitch" class="esri-widget">
-              <b>County Population:&nbsp;&nbsp;</b>
-              <label class="toggle">
+              <b>County Population&nbsp;&nbsp;</b>
+              <!-- <label class="toggle">
                 <input id="checkboxID_popChart" type="checkbox" checked />
                 <span
                   class="labels"
                   data-checked="SHOWING"
                   data-notChecked="HIDDEN"
                 ></span>
-              </label>
+              </label> -->
             </div>
             <br />
-            <canvas
-              id="popChartCanvas"
-              height="300"
-              width="400"
-              class="esri-widget"
-            ></canvas>
+
+            <!-- Chart Canvas -->
+            <canvas id="popChartCanvas" height="300" width="400"></canvas>
           </div>
         </div>
 
-        <span id="sidebarToggler" class="toggler">charts &#9776;</span>
+        <span id="sidebarToggler" class="toggler"
+          >population chart &#9776;</span
+        >
       </div>
     </div>
 

@@ -46,12 +46,12 @@ require([
       id: "a81508218fdf4be9bc5b7070e3f957cb"
     },
     //definitionExpression: "yrBuilt > 0",
-    // title: "parcelWithBldgAge",
     title: "Buildings",
     //minScale: 72223.819286,
-    effect: "bloom(1.25 0 0.5)",
-    //DON'T THINK I NEED THIS ANYMORE WITH NEW FILTER SETUP
-    outFields: ["exlanduse"] //need this parameter to use in the land use filter; if this same field were required for the renderer or labels, wouldn't need to define it again here
+    // effect: "bloom(1.25 0 0.5)"
+    effect: "bloom(2.5 0 0.7)"
+    //DON'T NEED THIS ANYMORE WITH NEW FILTER SETUP
+    // outFields: ["exlanduse"] //need this parameter to use in the land use filter; if this same field were required for the renderer or labels, wouldn't need to define it again here
   });
 
   // create another FeatureLayer from portal object
@@ -83,8 +83,8 @@ require([
     map: map,
     container: "viewDiv",
     center: [-84.2807, 30.5],
-    scale: 250000,
-    // zoom: 10,
+    // scale: 250000,
+    zoom: 10,
     constraints: {
       snapToZoom: false
       //minScale: 72223.819286,
@@ -131,7 +131,7 @@ require([
         label: false,
         // backgroundColor: "rgba(255, 99, 132, .6)",
         // borderColor: "rgb(255, 99, 132, .6)",
-        borderColor: "orange",
+        borderColor: "#6BA292",
         // fill: true,
         data: changingPop
       }
@@ -268,9 +268,9 @@ require([
   document.getElementById("displayBtns").addEventListener("change", (event) => {
     let targetDisplay = event.target;
     if (targetDisplay.id == "points") {
-      return (symbolProperties = points);
+      return (symbolProperties = points), (layer.title = "Buildings");
     } else {
-      return (symbolProperties = parcels);
+      return (symbolProperties = parcels), (layer.title = "Parcels");
     }
   });
 
@@ -303,7 +303,7 @@ require([
       landUseLayerView.featureEffect = new FeatureEffect({
         filter: featureFilter,
         // includedEffect: "drop-shadow(3px 3px 3px)",
-        excludedEffect: "opacity(35%) grayscale(99%)"
+        excludedEffect: "opacity(25%) grayscale(99%)"
       });
     } else {
       // this is the 'noFilter' reset so no effect is applied to anything
@@ -374,14 +374,6 @@ require([
   // place in the application view
   view.ui.empty("top-left");
   view.ui.add(titleDiv, "top-left");
-  // view.ui.add(popChartPanel, "bottom-right");
-  view.ui.add(
-    new Fullscreen({
-      view: view,
-      element: applicationDiv
-    }),
-    "bottom-right"
-  );
   view.ui.add(
     new Home({
       view: view
@@ -395,9 +387,17 @@ require([
     "top-left"
   );
   view.ui.add(optionsPanelExpand, "top-left");
-  view.ui.add(sidebarToggler, "top-right");
+  view.ui.add(
+    new Fullscreen({
+      view: view,
+      element: applicationDiv
+    }),
+    "top-right"
+  );
+  view.ui.add(sidebarToggler, "bottom-right");
   // view.ui.add(filterLandUseBtn, "bottom-right");
   view.ui.add(chartsSidebar, "bottom-right");
+  // view.ui.add(popDiv, "bottom-right");
   view.ui.add(
     new Legend({
       view: view
@@ -469,7 +469,8 @@ require([
       symbol: {
         type: "simple-line",
         width: 3,
-        color: "orange"
+        // color: "#437F97"
+        color: "#6BA292"
       },
       visualVariables: [
         {
@@ -522,17 +523,22 @@ require([
           stops: [
             {
               value: year,
-              color: "#0ff",
+              // color: "#0ff",
+              // color: "#CEB888",
+              color: "#FBF4B5",
               label: "in " + Math.floor(year)
             },
             {
               value: year - 10,
-              color: "#f0f",
+              // color: "#f0f",
+              // color: "#BA927B",
+              color: "#AB836C",
               label: "in " + (Math.floor(year) - 20)
             },
             {
               value: year - 50,
-              color: "#404",
+              // color: "#404",
+              color: "#5A1122",
               label: "before " + (Math.floor(year) - 50)
             }
           ]

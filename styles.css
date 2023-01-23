@@ -23,10 +23,12 @@ body {
 }
 
 #titleDiv {
+  color: #fbf4b5;
   font-weight: 400;
   font-style: normal;
   font-size: 1.5019rem;
   padding: 10px;
+  background-color: rgba(30, 30, 30, 0.75);
 }
 
 #sliderContainer {
@@ -155,7 +157,7 @@ body {
 
 /* width of legend */
 div.esri-component.esri-legend.esri-widget.esri-widget--panel {
-  max-width: 175px;
+  max-width: 190px;
   background-color: rgba(30, 30, 30, 0.75);
 }
 
@@ -341,19 +343,19 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
   margin: 0px 10px 10px 10px;
 }
 
-#sidebarToggler {
+/* #sidebarToggler {
   color: rgba(255, 255, 255, 0.75);
-}
+} */
 
 .sidebar {
-  height: 85%;
+  height: 45%;
   width: 0;
   position: fixed;
   z-index: 1;
   top: 0;
   right: 0;
   background-color: #111;
-  padding-top: 60px;
+  padding-top: 10px;
   /* padding-right: 10px; /*makes black bar because pushes 10 px of the panel into the view all the time */
   transition: 0.5s;
   overflow-x: hidden;
@@ -405,8 +407,10 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
 }
 
 .toggler {
-  font-size: 30px;
+  font-size: 25px;
+  color: #fbf4b5;
   cursor: pointer;
+  background-color: rgba(30, 30, 30, 0.75);
 }
 
 .main {
