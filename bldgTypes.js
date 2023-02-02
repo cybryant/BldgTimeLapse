@@ -45,7 +45,9 @@ require([
     portalItem: {
       id: "a81508218fdf4be9bc5b7070e3f957cb"
     },
-    //definitionExpression: "yrBuilt > 0",
+    // TODO - THIS TAKES A LOT OF PROCESSING TIME; FILTER DATASET BEFORE LOADING TO SERVER
+    // filter out parcels designated as vacant
+    definitionExpression: "exlanduse <> 'vacant'",
     title: "Buildings",
     //minScale: 72223.819286,
     // effect: "bloom(1.25 0 0.5)"
@@ -82,9 +84,10 @@ require([
   const view = new MapView({
     map: map,
     container: "viewDiv",
-    center: [-84.2807, 30.5],
+    // center: [-84.28073, 30.43826], //this is the true center but it's offset due to more northward growth
+    center: [-84.28073, 30.47],
     // scale: 250000,
-    zoom: 10,
+    zoom: 11,
     constraints: {
       snapToZoom: false
       //minScale: 72223.819286,
@@ -129,9 +132,9 @@ require([
     datasets: [
       {
         label: false,
-        // backgroundColor: "rgba(255, 99, 132, .6)",
+        // backgroundColor: "rgba(30, 30, 30, 0.99)",
         // borderColor: "rgb(255, 99, 132, .6)",
-        borderColor: "#6BA292",
+        borderColor: "#fbf4b5",
         // fill: true,
         data: changingPop
       }
@@ -149,7 +152,7 @@ require([
       },
       title: {
         display: true,
-        // text: "Annual Leon County Population",
+        text: "Leon County Population",
         fontFamily:
           "'Avenir Next W00','Helvetica Neue', Helvetica, Arial, sans-serif"
       },
@@ -173,10 +176,10 @@ require([
         xAxes: [
           {
             ticks: {
-              max: 2020,
+              // max: 2020,
               // maxTicksLimit: 20,
               callback: (value) => {
-                if (value % 40 == 0) {
+                if (value % 10 == 0) {
                   return value;
                 }
               }
@@ -386,14 +389,14 @@ require([
     }),
     "top-left"
   );
-  view.ui.add(optionsPanelExpand, "top-left");
   view.ui.add(
     new Fullscreen({
       view: view,
       element: applicationDiv
     }),
-    "top-right"
+    "top-left"
   );
+  view.ui.add(optionsPanelExpand, "top-left");
   view.ui.add(sidebarToggler, "bottom-right");
   // view.ui.add(filterLandUseBtn, "bottom-right");
   view.ui.add(chartsSidebar, "bottom-right");

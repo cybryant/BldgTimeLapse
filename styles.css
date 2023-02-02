@@ -4,6 +4,7 @@ body {
   height: 100%;
   padding: 0;
   margin: 0;
+  color: #fbf4b5;
 }
 
 #applicationDiv {
@@ -32,6 +33,7 @@ body {
 }
 
 #sliderContainer {
+  color: #fbf4b5;
   flex: 0 0 80px;
   order: 2;
 
@@ -150,7 +152,7 @@ body {
 }
 
 #popChartCanvas {
-  background-color: rgba(30, 30, 30, 0.9);
+  background-color: rgba(30, 30, 30, 0.95);
 }
 
 /* ESRI STYLING OVERRIDES */
@@ -354,7 +356,8 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
   z-index: 1;
   top: 0;
   right: 0;
-  background-color: #111;
+  /* background-color: rgba(30, 30, 30, 0.75); */
+  background-color: transparent;
   padding-top: 10px;
   /* padding-right: 10px; /*makes black bar because pushes 10 px of the panel into the view all the time */
   transition: 0.5s;
@@ -394,9 +397,9 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
 
 .sidebar .closeSidebarButton {
   position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
+  top: 23px;
+  right: 8px;
+  font-size: 30px;
   margin-left: 50px;
   color: #818181;
   cursor: pointer;
@@ -407,7 +410,7 @@ div.esri-component.esri-legend.esri-widget.esri-widget--panel {
 }
 
 .toggler {
-  font-size: 25px;
+  font-size: 20px;
   color: #fbf4b5;
   cursor: pointer;
   background-color: rgba(30, 30, 30, 0.75);
