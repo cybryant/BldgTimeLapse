@@ -9,9 +9,7 @@ require([
   "esri/widgets/Zoom",
   "esri/widgets/Fullscreen",
   "esri/widgets/Expand",
-  "esri/layers/support/FeatureEffect",
-  "esri/layers/GeoJSONLayer",
-  "esri/geometry/geometryEngine"
+  "esri/layers/support/FeatureEffect"
 ], (
   Map,
   FeatureLayer,
@@ -23,13 +21,8 @@ require([
   Zoom,
   Fullscreen,
   Expand,
-  FeatureEffect,
-  GeoJSONLayer,
-  geometryEngine
+  FeatureEffect
 ) => {
-  //TEMPORARY - just for testing
-  let setYearCount = 1;
-
   // API Querying Documentation: "Features within a FeatureLayer are rendered as graphics inside a
   // LayerView. Therefore the features visible in a view are accessed via the LayerView, not the
   // FeatureLayer. To access features visible in the view, use the query methods in the FeatureLayerView."
@@ -39,6 +32,30 @@ require([
   /*********************************************/
   /*             SETUP MAP & VIEW              */
   /*********************************************/
+
+  // popup format
+  const popupTemplate = {
+    title: "Parcel Info",
+    content: [
+      {
+        type: "fields",
+        fieldInfos: [
+          {
+            fieldName: "YR_BLT",
+            label: "Year Building Built"
+          },
+          {
+            fieldName: "exlanduse",
+            label: "Existing Land Use"
+          },
+          {
+            fieldName: "ZONED",
+            label: "Zoned"
+          }
+        ]
+      }
+    ]
+  };
 
   // create FeatureLayer from portal object
   const layer = new FeatureLayer({
@@ -51,7 +68,8 @@ require([
     title: "Buildings",
     //minScale: 72223.819286,
     // effect: "bloom(1.25 0 0.5)"
-    effect: "bloom(2.5 0 0.7)"
+    effect: "bloom(2.5 0 0.7)",
+    popupTemplate: popupTemplate
     //DON'T NEED THIS ANYMORE WITH NEW FILTER SETUP
     // outFields: ["exlanduse"] //need this parameter to use in the land use filter; if this same field were required for the renderer or labels, wouldn't need to define it again here
   });
